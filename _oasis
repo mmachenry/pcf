@@ -1,14 +1,13 @@
-OASISFormat: 0.3
-Name:        PCF Interpreter
-Version:     0.1
-Synopsis:    An interpreter for the programming language PCF
+OASISFormat: 0.4
+Name:        pcf
+Version:     0.0.1
+Synopsis:    An interpreter for the programming language PCF.
 Authors:     Mike MacHenry
-License:     LGPL-3.0
-Plugins:     DevFiles (0.3)
+License:     GPL-3
+Plugins:     DevFiles (0.4)
 
-Executable roundstream
+Executable pcf
   Path:       src
   BuildTools: ocamlbuild
   MainIs:     main.ml
-  BuildDepends: 
-
+  
