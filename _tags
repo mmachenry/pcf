@@ -1,5 +1,5 @@
 # OASIS_START
-# DO NOT EDIT (digest: d0e289e8c72d24c9ccfb1a7074e8ac0b)
+# DO NOT EDIT (digest: 79b6f0ca70ed9d7573b80abc6997381e)
 # Ignore VCS directories, you can use the same kind of rule outside
 # OASIS_START/STOP if you want to exclude directories that contains
 # useless stuff for the build process
@@ -14,5 +14,12 @@
 "_darcs": -traverse
 "_darcs": not_hygienic
 # Executable pcf
+# Library pcf
+"src/pcf.cmxs": use_pcf
+# Executable test
+"test/test.byte": use_pcf
+"test/test.byte": pkg_oUnit
+<test/*.ml{,i}>: use_pcf
+<test/*.ml{,i}>: pkg_oUnit
 # OASIS_STOP
 true: use_menhir

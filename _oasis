@@ -4,10 +4,24 @@ Version:     0.0.1
 Synopsis:    An interpreter for the programming language PCF.
 Authors:     Mike MacHenry
 License:     GPL-3
+BuildTools:  ocamlbuild
 Plugins:     DevFiles (0.4)
 
 Executable pcf
-  Path:       src
-  BuildTools: ocamlbuild
-  MainIs:     main.ml
+  Path:         src
+  MainIs:       main.ml
+
+Library pcf
+  Path:         src
+  Modules:      Ast, Read, Eval, Print
+
+Executable test
+  Path:         test
+  MainIs:       test.ml
+  Install:      false
+  BuildDepends: oUnit, pcf
   
+Test main 
+  Command:      $test
+  TestTools:    test
+
