@@ -20,16 +20,22 @@ main:
     | e = expr; EOF { e }
 
 expr:
+    | a = app { a }
+    | IF; e0 = expr; THEN; e1 = expr; ELSE; e2 = expr { Ast.If (e0, e1, e2) }
+    | FN; id = ID; ARROW; e = expr { Ast.Fun (id,e) }
+    | REC; id = ID; ARROW; e = expr { Ast.Rec (id,e) }
+
+app:
+    | e1 = app; e2 = atom { Ast.App(e1,e2) }
+    | a = atom { a }
+
+atom:
     | id = ID { Ast.Id id }
     | i = INT { Ast.Int i }
-    | e1 = expr; e2 = expr { Ast.App (e1,e2) }
     | TRUE { Ast.Bool true }
     | FALSE { Ast.Bool false }
     | SUCC { Ast.Succ }
     | PRED { Ast.Pred }
     | ISZERO { Ast.IsZero }
-    | IF; e0 = expr; THEN; e1 = expr; ELSE; e2 = expr { Ast.If (e0, e1, e2) }
-    | FN; id = ID; ARROW; e = expr { Ast.Fun (id,e) }
-    | REC; id = ID; ARROW; e = expr { Ast.Rec (id,e) }
     | LEFT_PAREN; e = expr; RIGHT_PAREN { e }
 
