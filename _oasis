@@ -7,23 +7,18 @@ License:     GPL-3
 BuildTools:  ocamlbuild
 Plugins:     DevFiles (0.4)
 
-Executable pcf
+Library pcf
+  Pack:         true
+  FindLibName:  pcf
   Path:         src
-  MainIs:       main.ml
-
-Library Ast
-  Path: src
-  Modules: Ast
-
-Library Read
-  Path: src
-  Modules: Read
+  Modules:      Read,
+                Ast
 
 Executable test
   Path:         test
   MainIs:       test.ml
   Install:      false
-  BuildDepends: oUnit, Ast, Read
+  BuildDepends: oUnit, pcf
   
 Test main 
   Command:      $test
