@@ -1,5 +1,5 @@
 # OASIS_START
-# DO NOT EDIT (digest: f0aad7a98ed41750802b2fd1f0defe11)
+# DO NOT EDIT (digest: 545ff473f7d857235e15d6a6d36b2425)
 # Ignore VCS directories, you can use the same kind of rule outside
 # OASIS_START/STOP if you want to exclude directories that contains
 # useless stuff for the build process
@@ -13,10 +13,15 @@
 ".git": not_hygienic
 "_darcs": -traverse
 "_darcs": not_hygienic
+# Executable pcf
 # Library pcf
 "src/pcf.cmxs": use_pcf
 "src/read.cmx": for-pack(Pcf)
 "src/ast.cmx": for-pack(Pcf)
+"src/parser.cmx": for-pack(Pcf)
+"src/lexer.cmx": for-pack(Pcf)
+"src/eval.cmx": for-pack(Pcf)
+"src/print.cmx": for-pack(Pcf)
 # Executable test
 "test/test.byte": use_pcf
 "test/test.byte": pkg_oUnit
