@@ -10,12 +10,14 @@ Plugins:     DevFiles (0.4)
 Executable pcf
   MainIs:       main.ml
   Path:         src
+  BuildDepends: extlib
 
 Library pcf
   Pack:         true
   FindLibName:  pcf
   Path:         src
   Modules:      Read, Ast, Parser, Lexer, Eval, Print
+  BuildDepends: extlib
 
 Executable test
   Path:         test

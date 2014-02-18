@@ -1,6 +1,13 @@
 open OUnit
 open Pcf
 
+(* TODO:
+    "x";
+    "x x";
+    "fn x => x";
+    "rec fact => fn n => if iszero n then 1 else mul n (fact (pred n))";
+*)
+
 let tests =
     "Test parser" >:::
       [ "Parse one character identifier" >::

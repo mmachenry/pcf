@@ -1,13 +1,13 @@
-let examples = [
-    "x";
-    "x x";
-    "fn x => x";
-    "rec fact => fn n => if iszero n then 1 else mul n (fact (pred n))";
-    ]
+open ExtLib
 
-let () = List.iter (fun s ->
-    print_endline
-        (Print.string_of_ast
-            (Read.ast_of_string s)))
-    examples
+let read_file (filename : string) : string =
+    let ic = open_in filename
+    in String.concat "" (Std.input_list ic)
+
+let () =
+    let filename = "testfile.prg" in (* file name from cmd line args *)
+    let str = read_file filename in
+    let ast = Read.ast_of_string str in
+    let outstr = Ast.string_of_ast ast in
+    print_endline outstr
 
