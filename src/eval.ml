@@ -3,21 +3,51 @@ value*)
 
 open Ast
 
-let rec eval env = function
-    | Id id -> List.assoc id env;
-    | App (e1, e2) -> (
-        let func = eval env e1 in
-        let arg = eval env e2 in
-        eval_app env func arg)
-    | If (e1, e2, e3) -> (match eval env e1 with
-        | Bool b -> eval env (if b then e2 else e1)
-        | _ -> failwith "Not a boolean value in IF.");
-    | Rec (id, expr) -> failwith "Not yet implemented.";
+let make_int_func (f : int -> int) : expr = Primitive (function
+    | Int i -> Int (f i)
+    | _ -> failwith "Not an integer.")
+
+let primitives = [
+    ("succ", make_int_func (fun x -> x + 1 ));
+    ("pred", make_int_func (fun x -> x - 1));
+    ("iszero", Primitive (function
+        | Int i -> Bool (i == 0)
+        | _ -> failwith "Not an integer."))
+    ]
+
+let rec subst expr id replacement = match expr with
+    | Id str -> if id == str then replacement else Id id
+    | Fun (param, body) ->
+        if param == id
+        then Fun (param,body)
+        else Fun (param, subst body id replacement)
+    | App (e1, e2) -> App (subst e1 id replacement, subst e2 id replacement)
+    | If (e1, e2, e3) ->
+        If (subst e1 id replacement,
+            subst e2 id replacement,
+            subst e3 id replacement)
+    | Rec (i, e) -> Rec (i, subst e id replacement)
     | other -> other
+
+let rec eval_in_env env = function
+    | Id id -> (
+        try List.assoc id env
+        with Not_found -> failwith ("Invalid ID: " ^ id))
+    | App (e1, e2) -> (
+        let func = eval_in_env env e1 in
+        let arg = eval_in_env env e2 in
+        eval_app env func arg)
+    | If (e1, e2, e3) -> (match eval_in_env env e1 with
+        | Bool b -> eval_in_env env (if b then e2 else e3)
+        | _ -> failwith "Not a boolean value in IF.");
+    | Rec (id, expr) -> subst expr id (Rec (id,expr))
+    | other -> other
+
+(* need to handle indetifier capture *)
 and eval_app env func arg = match func with
-    | Fun (id, body) -> eval ((id, arg)::env) body
-    | Succ -> (match arg with Int i -> Ast.Int (i+1) | _ -> failwith "not int")
-    | Pred -> (match arg with Int i -> Ast.Int (i-1) | _ -> failwith "not int")
-    | IsZero -> (match arg with Int i -> Ast.Bool (i==0) | _ -> failwith "not int")
-    | _ -> failwith "Cannot apply a non-function."
+    | Fun (id, body) -> eval_in_env ((id, arg)::env) body
+    | Primitive f -> f arg
+    | ast -> failwith ("Cannot apply a non-function: " ^ (string_of_ast ast))
+
+let eval expr = eval_in_env primitives expr
 

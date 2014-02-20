@@ -13,7 +13,6 @@ Executable pcf
   BuildDepends: extlib
 
 Library pcf
-  Pack:         true
   FindLibName:  pcf
   Path:         src
   Modules:      Read, Ast, Parser, Lexer, Eval, Print

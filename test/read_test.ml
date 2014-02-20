@@ -1,5 +1,5 @@
 open OUnit
-open Pcf
+(*open Pcf*)
 
 
 let tests = "Test parser" >::: [
@@ -19,10 +19,10 @@ let tests = "Test parser" >::: [
         (Read.ast_of_string "rec fact => fn n => if iszero n then 1 else mul n (fact (pred n))")
         (Ast.Rec ("fact",
             (Ast.Fun ("n",
-                (Ast.If ((Ast.App (Ast.IsZero, (Ast.Id "n"))),
+                (Ast.If ((Ast.App (Ast.Id "iszero", (Ast.Id "n"))),
                          (Ast.Int 1),
                          (Ast.App ((Ast.App ((Ast.Id "mul"),
                                              (Ast.Id "n"))),
                                   (Ast.App ((Ast.Id "fact"),
-                                            (Ast.App (Ast.Pred, (Ast.Id "n")))))))))))))))
+                                            (Ast.App (Ast.Id "pred", (Ast.Id "n")))))))))))))))
     ]

@@ -2,9 +2,6 @@
 %token <int> INT
 %token TRUE
 %token FALSE
-%token SUCC
-%token PRED
-%token ISZERO
 %token IF
 %token THEN
 %token ELSE
@@ -34,8 +31,5 @@ atom:
     | i = INT { Ast.Int i }
     | TRUE { Ast.Bool true }
     | FALSE { Ast.Bool false }
-    | SUCC { Ast.Succ }
-    | PRED { Ast.Pred }
-    | ISZERO { Ast.IsZero }
     | LEFT_PAREN; e = expr; RIGHT_PAREN { e }
 

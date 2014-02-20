@@ -31,9 +31,6 @@ rule read = parse
     (*| floating { FLOAT (float_of_string (Lexing.lexeme lexbuf)) }*)
     | "true" { TRUE }
     | "false" { FALSE }
-    | "succ" { SUCC }
-    | "pred" { PRED }
-    | "iszero" { ISZERO }
     | "if" { IF }
     | "then" { THEN }
     | "else" { ELSE }
