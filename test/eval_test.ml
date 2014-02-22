@@ -1,12 +1,19 @@
 open OUnit
 
+let check_eval program value = fun () ->
+    assert_equal (Eval.eval (Read.ast_of_string program))
+                 (Read.ast_of_string value)
+
 let tests = "Test eval" >::: [
+    "Number" >:: (check_eval "413" "413");
+    "Func app" >:: (check_eval "413"
+        "(fn x => x 412) succ");
+    "If" >:: (check_eval "413"
+        "if iszero(pred (pred 2)) then succ (pred 413) else 2");
+    "two params" >:: (check_eval "2"
+        "(fn m => (fn n => if iszero n then n else n)) 0 2")
     ]
-    (*
-    "Number" >:: (fun () -> assert_equal (run_program "1") 1)
-"(fn x => x 412) succ"
-"if iszero(pred (pred 2)) then succ (pred 413) else 2"
-"(fn m => (fn n => if iszero n then n else n)) 0 2"
+(*
 "(fn mul =>
     (rec fact => (fn n =>
         if iszero n
