@@ -9,7 +9,7 @@ type expr =
     | Primitive of (expr -> expr)
 
 let rec string_of_ast = function
-    | Id str -> "Id " ^ str
+    | Id str -> "Id \"" ^ str ^ "\""
     | Int i -> "Int " ^ string_of_int i
     | Bool b -> "Bool " ^ string_of_bool b
     | Fun (param, expr) ->
