@@ -1,7 +1,9 @@
 open OUnit
+open Eval
+open Ast
 
 let eval_string (program : string) : string =
-    Ast.string_of_ast (Eval.eval (Read.ast_of_string program))
+    Ast.string_of_ast (eval (Read.ast_of_string program))
 
 let check_eval p1 p2 () = assert_equal (eval_string p1) (eval_string p2)
 
@@ -19,7 +21,10 @@ let tests = "Test eval" >::: [
             if iszero n
             then m
             else succ(add (pred n) m)) 400 13"
-        "413")
+        "413");
+
+    "Simple subst" >::
+        (fun () -> assert_equal (subst (Id "iszero") "add" (Int 10)) (Id "iszero"))
     ]
 (*
 "(fn mul =>

@@ -29,14 +29,15 @@ let tests = "Test parser" >::: [
             else succ(add (pred n) m))
         400
         13"
-        (App (Rec ("add", (Fun ("n", Fun ("m",
-             (If (App (Id "iszero",Id "n"),
-                 Id "m",
-                 (App (Id "succ",
-                      (App ((App (Id "add",
-                                 (App (Id "pred", Id "n")))),
-                           Id "m")))))))))),
-             Int 40013));
+        (App (App (Rec ("add", (Fun ("n", Fun ("m",
+                  (If (App (Id "iszero",Id "n"),
+                      Id "m",
+                      (App (Id "succ",
+                           (App ((App (Id "add",
+                                      (App (Id "pred", Id "n")))),
+                                Id "m")))))))))),
+                  Int 400),
+             Int 13));
 
     "Factorial" >::
     (fun () -> (assert_equal
