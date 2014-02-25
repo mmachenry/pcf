@@ -21,6 +21,6 @@ let rec string_of_ast = function
         ", " ^ string_of_ast e2 ^
         ", " ^ string_of_ast e3 ^ ")"
     | Rec (id, expr) ->
-        "Rec (" ^ id ^ ", " ^ string_of_ast expr ^ ")"
+        "Rec (\"" ^ id ^ "\", " ^ string_of_ast expr ^ ")"
     | Primitive _ -> "Primitive (fun x-> x)"
 
