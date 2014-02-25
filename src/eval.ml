@@ -1,6 +1,3 @@
-(* TODO: the evaluator for the PCF program. Accepts an Ast and produces a
-value*)
-
 open Ast
 
 let make_int_func (f : int -> int) : expr = Primitive (function
@@ -26,7 +23,10 @@ let rec subst expr id replacement = match expr with
         If (subst e1 id replacement,
             subst e2 id replacement,
             subst e3 id replacement)
-    | Rec (i, e) -> Rec (i, subst e id replacement)
+    | Rec (i, e) ->
+        if id == i
+        then Rec (i,e)
+        else Rec (i, subst e id replacement)
     | other -> other
 
 let rec eval_in_env env = function
@@ -43,7 +43,7 @@ let rec eval_in_env env = function
     | Rec (id, expr) -> subst expr id (Rec (id,expr))
     | other -> other
 
-(* need to handle indetifier capture *)
+(* TODO need to handle indetifier capture *)
 and eval_app env func arg = match func with
     | Fun (id, body) -> eval_in_env ((id, arg)::env) body
     | Primitive f -> f arg
