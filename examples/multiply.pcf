@@ -1,0 +1,12 @@
+(fn add =>
+    (rec _mul => fn n => fn m =>
+        if iszero n
+        then 0
+        else add m (_mul (pred n) m)))
+
+(rec _add => fn n => fn m =>
+    if iszero n
+    then m
+    else succ(_add (pred n) m))
+7
+59

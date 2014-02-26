@@ -6,7 +6,6 @@ type expr =
     | App of expr * expr
     | If of expr * expr * expr
     | Rec of string * expr
-    | Primitive of (expr -> expr)
 
 let rec string_of_ast = function
     | Id str -> "Id \"" ^ str ^ "\""
@@ -22,5 +21,4 @@ let rec string_of_ast = function
         ", " ^ string_of_ast e3 ^ ")"
     | Rec (id, expr) ->
         "Rec (\"" ^ id ^ "\", " ^ string_of_ast expr ^ ")"
-    | Primitive _ -> "Primitive (fun x-> x)"
 
