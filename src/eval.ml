@@ -1,14 +1,14 @@
 open Ast
 
 let make_int_func (f : int -> int) : Value.value = Value.Primitive (function
-    | Int i -> Int (f i)
+    | Value.Int i -> Value.Int (f i)
     | _ -> failwith "Not an integer.")
 
 let primitives : Value.env = [
     ("succ", make_int_func (fun x -> x + 1 ));
     ("pred", make_int_func (fun x -> x - 1));
-    ("iszero", Primitive (function
-        | Int i -> Bool (i = 0)
+    ("iszero", Value.Primitive (function
+        | Value.Int i -> Value.Bool (i = 0)
         | _ -> failwith "Not an integer."))
     ]
 
@@ -38,7 +38,7 @@ let rec eval_in_env (env : Value.env) : (expr -> Value.value) = function
         let arg = eval_in_env env e2 in
         eval_app func arg)
     | If (e1, e2, e3) -> (match eval_in_env env e1 with
-        | Bool b -> eval_in_env env (if b then e2 else e3)
+        | Value.Bool b -> eval_in_env env (if b then e2 else e3)
         | _ -> failwith "Not a boolean value in IF.")
     | Rec (id, expr) -> eval_in_env env (subst expr id (Rec (id,expr)))
     | Int i -> Value.Int i
