@@ -15,7 +15,7 @@ Executable pcf
 Library pcf
   FindLibName:  pcf
   Path:         src
-  Modules:      Read, Ast, Parser, Lexer, Eval, Print
+  Modules:      Read, Ast, Parser, Lexer, Eval, Value
   BuildDepends: extlib
 
 Executable test

@@ -3,7 +3,7 @@ open Eval
 open Ast
 
 let eval_string (program : string) : string =
-    Ast.string_of_ast (eval (Read.ast_of_string program))
+    Value.string_of_value (eval (Read.ast_of_string program))
 
 let check_eval p1 p2 () = assert_equal (eval_string p1) (eval_string p2)
 
