@@ -7,7 +7,7 @@ License:     GPL-3
 BuildTools:  ocamlbuild
 Plugins:     DevFiles (0.4)
 
-Executable pcf
+Executable pcfbin
   MainIs:       main.ml
   Path:         src
   BuildDepends: extlib

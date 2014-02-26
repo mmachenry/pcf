@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: 28da40db54b52e2c89e59876eb83a0c4) *)
+(* DO NOT EDIT (digest: 3f01bf325c612f951031d8cc5fa04b50) *)
 module OASISGettext = struct
 (* # 22 "src/oasis/OASISGettext.ml" *)
 
@@ -39,10 +39,10 @@ module OASISExpr = struct
   open OASISGettext
 
 
-  type test = string 
+  type test = string
 
 
-  type flag = string 
+  type flag = string
 
 
   type t =
@@ -52,10 +52,10 @@ module OASISExpr = struct
     | EOr of t * t
     | EFlag of flag
     | ETest of test * string
-    
 
 
-  type 'a choices = (t * 'a) list 
+
+  type 'a choices = (t * 'a) list
 
 
   let eval var_get t =
@@ -394,10 +394,10 @@ module MyOCamlbuildBase = struct
   module OC = Ocamlbuild_pack.Ocaml_compiler
 
 
-  type dir = string 
-  type file = string 
-  type name = string 
-  type tag = string 
+  type dir = string
+  type file = string
+  type name = string
+  type tag = string
 
 
 (* # 62 "src/plugins/ocamlbuild/MyOCamlbuildBase.ml" *)
@@ -412,7 +412,7 @@ module MyOCamlbuildBase = struct
          * directory.
          *)
         includes:  (dir * dir list) list;
-      } 
+      }
 
 
   let env_filename =
