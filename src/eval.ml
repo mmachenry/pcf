@@ -1,10 +1,10 @@
 open Ast
 
-let make_int_func (f : int -> int) : expr = Primitive (function
+let make_int_func (f : int -> int) : Value.value = Value.Primitive (function
     | Int i -> Int (f i)
     | _ -> failwith "Not an integer.")
 
-let primitives = [
+let primitives : Value.env = [
     ("succ", make_int_func (fun x -> x + 1 ));
     ("pred", make_int_func (fun x -> x - 1));
     ("iszero", Primitive (function
@@ -29,25 +29,29 @@ let rec subst expr id replacement = match expr with
         else Rec (i, subst e id replacement)
     | other -> other
 
-let rec eval_in_env env = function
+let rec eval_in_env (env : Value.env) : (expr -> Value.value) = function
     | Id id -> (
         try List.assoc id env
         with Not_found -> failwith ("Invalid ID: " ^ id))
     | App (e1, e2) -> (
         let func = eval_in_env env e1 in
         let arg = eval_in_env env e2 in
-        eval_app env func arg)
+        eval_app func arg)
     | If (e1, e2, e3) -> (match eval_in_env env e1 with
         | Bool b -> eval_in_env env (if b then e2 else e3)
         | _ -> failwith "Not a boolean value in IF.")
     | Rec (id, expr) -> eval_in_env env (subst expr id (Rec (id,expr)))
-    | other -> other
+    | Int i -> Value.Int i
+    | Bool b -> Value.Bool b
+    | Fun (param, body) -> Value.Closure (env, param, body)
 
-(* TODO need to handle indetifier capture. implement closures. *)
-and eval_app env func arg = match func with
-    | Fun (id, body) -> let e = ((id, arg)::env) in eval_in_env e body
-    | Primitive f -> f arg
-    | ast -> failwith ("Cannot apply a non-function: " ^ (string_of_ast ast))
+and eval_app (func : Value.value) (arg : Value.value) : Value.value =
+    match func with
+    | Value.Closure (env, id, body) ->
+        let e = ((id, arg)::env)
+        in eval_in_env e body
+    | Value.Primitive f -> f arg
+    | ast -> failwith "Cannot apply a non-function."
 
 let eval expr = eval_in_env primitives expr
 

@@ -16,6 +16,6 @@ let () =
     then print_endline usage_msg
     else let str = read_file !filename in
          let ast = Read.ast_of_string str in
-         let outstr = Print.string_of_value (Eval.eval ast) in
+         let outstr = Value.string_of_value (Eval.eval ast) in
          print_endline outstr
 
